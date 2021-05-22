@@ -37,11 +37,15 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :validatable
   include DeviseTokenAuth::Concerns::User
 
-  # Associations
+  attr_accessor :role
 
   # Query Interface
   # -Enums
   enum gender: {male: 0, female: 1}
+
+  # Associations
+  has_one :doctor
+  has_one :patient
 
   # -Scopes
 
@@ -71,8 +75,13 @@ class User < ActiveRecord::Base
 
   #--first_name & last_name
   validates :first_name, :last_name, presence: true, length: { minimum: 2 }
+  validates :role, presence: true, on: :create
 
   validate :gender_should_be_valid
+  validate :role_should_be_valid, if: -> { role.present? }
+
+  before_validation :downcase_role
+  before_create :create_role_profile
 
   def gender=(value)
     super value
@@ -94,6 +103,28 @@ class User < ActiveRecord::Base
       self.gender ||= @gender_backup
       error_message = 'is not a valid gender'
       errors.add(:gender, error_message)
+    end
+  end
+
+  def role_should_be_valid
+    unless role == "doctor" || role == "patient"
+      errors.add(:role, "invalid value '#{role}'")
+    end
+  end
+
+  def downcase_role
+    return unless role.present?
+    role_value = role
+    self.role = role_value.downcase
+  end
+
+  def create_role_profile
+    if role == "doctor"
+      self.doctor = Doctor.new
+      # Doctor.create!(user: self)
+    elsif role == "patient"
+      self.patient = Patient.new
+      # Patient.create!(user: self)
     end
   end
 end

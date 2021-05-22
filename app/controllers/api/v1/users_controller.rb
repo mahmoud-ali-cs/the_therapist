@@ -25,12 +25,12 @@ class Api::V1::UsersController < ApplicationController
       # things which are typically restricted
       # The following assumes that the user has received those headers
       # and that they are then using those headers to make a request
-    
+
       new_auth_header = @user.build_auth_header(token.token, token.client)
-    
+
       puts 'This is the new auth header'
       puts new_auth_header.to_s
-    
+
       # update response with the header that will be required by the next request
       puts response.headers.merge!(new_auth_header).to_s
 
@@ -57,7 +57,7 @@ class Api::V1::UsersController < ApplicationController
         return render_error I18n.t('devise_token_auth.sessions.bad_credentials'), :unauthorized
         # return render_create_error_bad_credentials
       end
-      
+
       token = DeviseTokenAuth::TokenFactory.create
 
       # store client + token in user's token hash
@@ -76,12 +76,12 @@ class Api::V1::UsersController < ApplicationController
       # things which are typically restricted
       # The following assumes that the user has received those headers
       # and that they are then using those headers to make a request
-    
+
       new_auth_header = @user.build_auth_header(token.token, token.client)
-    
+
       puts 'This is the new auth header'
       puts new_auth_header.to_s
-    
+
       # update response with the header that will be required by the next request
       puts response.headers.merge!(new_auth_header).to_s
 
@@ -127,7 +127,7 @@ class Api::V1::UsersController < ApplicationController
   def sign_up_params
     params.require(:user).permit(
       :email, :phone, :birth_date, :password, :password_confirmation,
-      :first_name, :last_name, :gender
+      :first_name, :last_name, :gender, :role
     )
   rescue ActionController::ParameterMissing
     {}
@@ -201,5 +201,4 @@ class Api::V1::UsersController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     @user = nil
   end
-
 end

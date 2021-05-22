@@ -8,6 +8,16 @@ class Ability
       # => User
       can :read, User
       can :update, User, id: user.id
+
+      # => Doctor
+      can :read, Doctor
+      can :create, Doctor
+      can :update, Doctor, user_id: user.id
+
+      # => Patient
+      can :read, Patient
+      can :create, Patient
+      can :update, Patient, user_id: user.id
     end
   end
 end

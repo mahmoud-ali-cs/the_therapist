@@ -1,6 +1,5 @@
 class Api::V1::QuizzesController < ApplicationController
   before_action :authenticate_api_v1_user!
-  # before_action :set_quiz, only: [:show, :update]
   authorize_resource only: [:index, :show, :update]
 
   def create

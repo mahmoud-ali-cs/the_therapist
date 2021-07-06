@@ -23,6 +23,11 @@ class Ability
       can :read, Quiz
       can :create, Quiz
       can :update, Quiz
+
+      # => QuizResponse
+      can :read, QuizResponse
+      can :create, QuizResponse
+      can :update, QuizResponse
     end
   end
 end

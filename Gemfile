@@ -71,4 +71,8 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'devise_token_auth'
 gem 'phonelib'
 
-gem 'cancancan' 
+gem 'cancancan'
+
+gem 'carrierwave', '~> 2.1.0'
+gem 'mini_magick', '~> 4.11.0'
+gem 'file_validators', '~> 3.0.0'

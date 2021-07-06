@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       resources :doctors, only: [:index, :show, :update]
       resources :patients, only: [:index, :show, :update]
       resources :quizzes, only: [:index, :show, :create, :update]
+      resources :quiz_responses, only: [:index, :show, :create, :update]
 
       post 'users/sign_up', to: 'users#sign_up',
         as: "sign_up"

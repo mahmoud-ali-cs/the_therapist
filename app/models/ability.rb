@@ -18,6 +18,11 @@ class Ability
       can :read, Patient
       can :create, Patient
       can :update, Patient, user_id: user.id
+
+      # => Quiz
+      can :read, Quiz
+      can :create, Quiz
+      can :update, Quiz
     end
   end
 end

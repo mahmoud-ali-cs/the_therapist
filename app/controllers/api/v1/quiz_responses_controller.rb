@@ -14,6 +14,15 @@ class Api::V1::QuizResponsesController < ApplicationController
       return render_model_errors @quiz_reponse
     end
 
+    emotion = SerModel.process_sound_file(@quiz_reponse)
+    unless emotion.present?
+      return render_error "error in SER model", :unprocessable_entity
+    end
+
+    unless @quiz_reponse.update(emotion: emotion)
+      return render_model_errors @quiz_reponse
+    end
+
     render json: {
       quiz_reponse: ActiveModelSerializers::SerializableResource.new(
         @quiz_reponse, serializer: QuizResponseSerializer
